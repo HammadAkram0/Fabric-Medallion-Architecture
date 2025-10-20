@@ -1,3 +1,5 @@
+## 📁 Folder Structure
+
 Fabric-Medallion-Architecture/
 │
 ├── 📄 README.md
