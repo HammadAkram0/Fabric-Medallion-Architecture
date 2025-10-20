@@ -1,10 +1,10 @@
-# 🪶 Medallion Architecture in Microsoft Fabric
+# Medallion Architecture in Microsoft Fabric
 
 This project demonstrates how to build an **end-to-end Medallion Architecture** using **Microsoft Fabric** — moving data seamlessly from raw to analytics-ready layers using **Lakehouse, Data Pipelines, and Notebooks**.
 
 ---
 
-## 🧱 Architecture Overview
+## Architecture Overview
 
 The **Medallion Architecture** organizes data into structured layers for cleaner, faster, and more reliable analytics.
 
@@ -14,7 +14,8 @@ The **Medallion Architecture** organizes data into structured layers for cleaner
 | 🥈 Silver | Standardized and cleaned data | PySpark transformations |
 | 🥇 Gold | Curated, business-ready data for reporting | Fact & dimension tables for Power BI |
 
-![Architecture Overview](./Screenshots/medallion_layers.png)
+<img width="800" height="475" alt="image" src="https://github.com/user-attachments/assets/ae31cab3-7332-4f62-bc21-82bf15b58393" />
+
 
 ---
 
@@ -39,11 +40,10 @@ The **Medallion Architecture** organizes data into structured layers for cleaner
    - Prepares fact and dimension tables (Gold)
    - Publishes clean tables to the Lakehouse for Power BI
 
-![Pipeline Success](./Screenshots/pipeline_run_success.png)
 
 ---
 
-## 🧠 Sample PySpark Code
+## Sample PySpark Code
 
 ```python
 from pyspark.sql.types import *
