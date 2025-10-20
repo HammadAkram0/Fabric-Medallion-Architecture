@@ -15,7 +15,10 @@ The **Medallion Architecture** organizes data into structured layers for cleaner
 | 🥇 Gold | Curated, business-ready data for reporting | Fact & dimension tables for Power BI |
 
 
+
+
 <img width="800" height="475" alt="image" src="https://github.com/user-attachments/assets/ae31cab3-7332-4f62-bc21-82bf15b58393" />
+
 
 
 ---
