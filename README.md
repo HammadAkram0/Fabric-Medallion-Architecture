@@ -1,58 +1,36 @@
 # Medallion Architecture in Microsoft Fabric
 
-This project demonstrates how to build an **end-to-end Medallion Architecture** using **Microsoft Fabric** — moving data seamlessly from raw to analytics-ready layers using **Lakehouse, Data Pipelines, and Notebooks**.
+An end-to-end medallion architecture in Microsoft Fabric. Raw files move through Bronze, Silver and Gold layers using Lakehouse storage, Data Pipelines and PySpark notebooks, ending in analytics-ready tables for Power BI.
 
----
+**Stack:** Microsoft Fabric | Lakehouse | Data Pipelines | PySpark | Delta Lake | Power BI
 
-## Architecture Overview
+## Architecture
 
-The **Medallion Architecture** organizes data into structured layers for cleaner, faster, and more reliable analytics.
+| Layer | Purpose | In this project |
+|---|---|---|
+| Bronze | Raw, unprocessed data landed as-is | Source CSVs loaded from `Files/bronze/` |
+| Silver | Cleaned and standardised data | PySpark transformations and Delta merges |
+| Gold | Curated, business-ready data | Fact and dimension tables for Power BI |
 
-| Layer | Purpose | Example |
-|-------|----------|----------|
-| 🥉 Bronze | Raw, unprocessed data landed directly into Lakehouse | Source CSVs from storage |
-| 🥈 Silver | Standardized and cleaned data | PySpark transformations |
-| 🥇 Gold | Curated, business-ready data for reporting | Fact & dimension tables for Power BI |
+## Fabric components used
 
+- **Data Pipelines** orchestrate ingestion and the transformation steps
+- **Notebooks (PySpark)** handle cleaning, enrichment and Delta Lake merges
+- **Lakehouse** stores the Bronze, Silver and Gold tables
+- **Power BI semantic model** builds reports on the Gold layer
 
+## Pipeline workflow
 
+1. **Raw staging:** reads the raw CSVs from `Files/bronze/`, applies a schema and loads a Bronze table.
+2. **Standardised data** ([`Transform data for Silver.ipynb`](Notebook/Transform%20data%20for%20Silver.ipynb)): cleans nulls, flags old records and writes the Silver table with a Delta merge.
+3. **Analytics ready** ([`Transform data for Gold.ipynb`](Notebook/Transform%20data%20for%20Gold.ipynb)): prepares fact and dimension tables and publishes them to the Lakehouse for Power BI.
 
-<img width="800" height="475" alt="image" src="https://github.com/user-attachments/assets/ae31cab3-7332-4f62-bc21-82bf15b58393" />
-
-
-
----
-
-## ⚙️ Fabric Components Used
-- **Data Pipelines** → to orchestrate ingestion and transformations  
-- **Notebooks (PySpark)** → for data cleaning, enrichment, and Delta Lake merges  
-- **Lakehouse** → unified storage for bronze, silver, and gold tables  
-- **Power BI Semantic Model** → to build reports on gold data
-
----
-
-## 🧩 Pipeline Workflow
-1. **Raw_Staging Notebook**
-   - Reads raw CSVs from `Files/bronze/`
-   - Applies schema and loads data into Bronze table
-
-2. **Standardized_Data Notebook**
-   - Cleans nulls and flags old records
-   - Writes standardized data to Silver table using Delta Merge
-
-3. **Analytics_Ready Notebook**
-   - Prepares fact and dimension tables (Gold)
-   - Publishes clean tables to the Lakehouse for Power BI
-
-
----
-
-## Sample PySpark Code
+## Sample code
 
 ```python
 from pyspark.sql.types import *
 
-# Define schema
+# Define the schema
 orderSchema = StructType([
     StructField("SalesOrderNumber", StringType()),
     StructField("SalesOrderLineNumber", IntegerType()),
@@ -65,5 +43,24 @@ orderSchema = StructType([
     StructField("Tax", FloatType())
 ])
 
-# Load raw data from Bronze layer
+# Load raw data from the Bronze layer
 df = spark.read.format("csv").option("header", "true").schema(orderSchema).load("Files/bronze/*.csv")
+```
+
+## Repository structure
+
+```
+.
+|-- Notebook/
+|   |-- Transform data for Silver.ipynb
+|   `-- Transform data for Gold.ipynb
+`-- README.md
+```
+
+## Related project
+
+For a fuller Fabric solution that adds ingestion from SQL Server and SharePoint, a star schema and a Power BI dashboard, see [Microsoft-Fabric-WWI-Data-Engineering-Project](https://github.com/HammadAkram0/Microsoft-Fabric-WWI-Data-Engineering-Project).
+
+## Author
+
+Hammad Akram, Data Analytics Engineer | [Portfolio](https://hammadakram.vercel.app) | [LinkedIn](https://www.linkedin.com/in/hammadakram0/)
